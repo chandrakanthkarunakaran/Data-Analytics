@@ -1,0 +1,10 @@
+Transaction ID	Item	Qty	Rate	Amount
+TR1	Idly	10	10	100
+TR2	Idly	11	10	110
+TR3	Idly	12	10	120
+TR4	Idly	13	10	130
+TR5	Idly	14	10	140
+TR6	Dosa	3	50	150
+TR7	Dosa	4	50	200
+TR8	Dosa	5	50	250
+TR9	Dosa	6	50	300
