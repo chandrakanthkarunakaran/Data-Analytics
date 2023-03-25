@@ -1,0 +1,4 @@
+{"uom": "nos", "date": "2023-03-25", "rate": 25.0, "Item": "Apple", "qty": 10.0, "category": "Fruits&Vegetables", "amount": 125.0, "TransactionID": "tr202303251425", "customerid": "ck"}
+{"uom": "gms", "date": "2023-03-25", "rate": 1.0, "Item": "Badam", "qty": 500.0, "category": "DryFruits&Nuts", "amount": 500.0, "TransactionID": "tr202303251425", "customerid": "ck"}
+{"uom": "nos", "date": "2023-03-25", "rate": 50.0, "Item": "Orange", "qty": 10.0, "category": "Fruits&Vegetables", "amount": 500.0, "TransactionID": "tr202303251425", "customerid": "ck"}
+{"uom": "gms", "date": "2023-03-25", "rate": 2.0, "Item": "Walnut", "qty": 500.0, "category": "DryFruits&Nuts", "amount": 1000.0, "TransactionID": "tr202303251425", "customerid": "ck"}
