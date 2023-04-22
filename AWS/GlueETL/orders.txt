@@ -1,0 +1,66 @@
+[
+  {
+    "Name": "salesorderid",
+    "Type": "bigint"
+  },
+  {
+    "Name": "salesorderdetailid",
+    "Type": "bigint"
+  },
+  {
+    "Name": "orderdate",
+    "Type": "string"
+  },
+  {
+    "Name": "duedate",
+    "Type": "string"
+  },
+  {
+    "Name": "shipdate",
+    "Type": "string"
+  },
+  {
+    "Name": "employeeid",
+    "Type": "bigint"
+  },
+  {
+    "Name": "customerid",
+    "Type": "bigint"
+  },
+  {
+    "Name": "subtotal",
+    "Type": "double"
+  },
+  {
+    "Name": "taxamt",
+    "Type": "double"
+  },
+  {
+    "Name": "freight",
+    "Type": "double"
+  },
+  {
+    "Name": "totaldue",
+    "Type": "double"
+  },
+  {
+    "Name": "productid",
+    "Type": "bigint"
+  },
+  {
+    "Name": "orderqty",
+    "Type": "bigint"
+  },
+  {
+    "Name": "unitprice",
+    "Type": "double"
+  },
+  {
+    "Name": "unitpricediscount",
+    "Type": "double"
+  },
+  {
+    "Name": "linetotal",
+    "Type": "double"
+  }
+]

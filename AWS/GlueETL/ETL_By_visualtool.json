@@ -1,0 +1,535 @@
+{
+	"jobConfig": {
+		"name": "Sale&RevenueReports",
+		"description": "",
+		"role": "arn:aws:iam::073914561898:role/service-role/AWSGlueServiceRole-GlueDemo",
+		"command": "glueetl",
+		"version": "3.0",
+		"workerType": "G.1X",
+		"numberOfWorkers": 2,
+		"maxCapacity": 2,
+		"maxRetries": 0,
+		"timeout": 2880,
+		"maxConcurrentRuns": 1,
+		"security": "none",
+		"scriptName": "Sale&RevenueReports.py",
+		"scriptLocation": "s3://aws-glue-assets-073914561898-us-east-2/scripts/",
+		"language": "python-3",
+		"jobParameters": [],
+		"tags": [],
+		"jobMode": "VISUAL_MODE",
+		"createdOn": "2023-04-15T06:39:28.358Z",
+		"developerMode": false,
+		"connectionsList": [],
+		"temporaryDirectory": "s3://aws-glue-assets-073914561898-us-east-2/temporary/",
+		"logging": true,
+		"glueHiveMetastore": true,
+		"etlAutoTuning": true,
+		"metrics": true,
+		"spark": true,
+		"bookmark": "job-bookmark-disable",
+		"sparkPath": "s3://aws-glue-assets-073914561898-us-east-2/sparkHistoryLogs/",
+		"flexExecution": false,
+		"minFlexWorkers": null
+	},
+	"dag": {
+		"node-1681554205060": {
+			"nodeId": "node-1681554205060",
+			"dataPreview": false,
+			"previewAmount": 0,
+			"inputs": [
+				"node-1681540077741"
+			],
+			"name": "Sale Report Clean",
+			"generatedNodeName": "SaleReportClean_node1681554205060",
+			"classification": "Transform",
+			"type": "ApplyMapping",
+			"mapping": [
+				{
+					"toKey": "employeeid",
+					"fromPath": [
+						"employeeid"
+					],
+					"toType": "long",
+					"fromType": "long",
+					"dropped": true,
+					"children": null
+				},
+				{
+					"toKey": "customerid",
+					"fromPath": [
+						"customerid"
+					],
+					"toType": "long",
+					"fromType": "long",
+					"dropped": true,
+					"children": null
+				},
+				{
+					"toKey": "totalsale_emp",
+					"fromPath": [
+						"linetotal"
+					],
+					"toType": "double",
+					"fromType": "double",
+					"dropped": false,
+					"children": null
+				},
+				{
+					"toKey": "(right) employeeid",
+					"fromPath": [
+						"(right) employeeid"
+					],
+					"toType": "long",
+					"fromType": "long",
+					"dropped": true,
+					"children": null
+				},
+				{
+					"toKey": "employeename",
+					"fromPath": [
+						"(right) fullname"
+					],
+					"toType": "string",
+					"fromType": "string",
+					"dropped": false,
+					"children": null
+				}
+			],
+			"parentsValid": true,
+			"calculatedType": "",
+			"codeGenVersion": 2
+		},
+		"node-1681553372396": {
+			"nodeId": "node-1681553372396",
+			"dataPreview": false,
+			"previewAmount": 0,
+			"inputs": [
+				"node-1681539963483"
+			],
+			"name": "Select Fields",
+			"generatedNodeName": "SelectFields_node1681553372396",
+			"classification": "Transform",
+			"type": "SelectFields",
+			"paths": [
+				"(right) linetotal",
+				"fullname"
+			],
+			"parentsValid": true,
+			"calculatedType": "",
+			"codeGenVersion": 2
+		},
+		"node-1681540388235": {
+			"nodeId": "node-1681540388235",
+			"dataPreview": false,
+			"previewAmount": 0,
+			"inputs": [
+				"node-1681554768134"
+			],
+			"name": "Revenue Report By Customers",
+			"generatedNodeName": "RevenueReportByCustomers_node1681540388235",
+			"classification": "DataSink",
+			"type": "S3",
+			"streamingBatchInterval": 100,
+			"format": "csv",
+			"compression": "none",
+			"path": "s3://aws-glue-demo-ck/revenuereport_cust/",
+			"partitionKeys": [],
+			"schemaChangePolicy": {
+				"enableUpdateCatalog": false,
+				"updateBehavior": null,
+				"database": null,
+				"table": null
+			},
+			"updateCatalogOptions": "none",
+			"calculatedType": ""
+		},
+		"node-1681539760996": {
+			"nodeId": "node-1681539760996",
+			"dataPreview": false,
+			"previewAmount": 0,
+			"inputs": [
+				"node-1681539580030"
+			],
+			"name": "Orders Select",
+			"generatedNodeName": "OrdersSelect_node1681539760996",
+			"classification": "Transform",
+			"type": "DropFields",
+			"paths": [
+				"salesorderid",
+				"salesorderdetailid",
+				"orderdate",
+				"duedate",
+				"shipdate",
+				"subtotal",
+				"taxamt",
+				"freight",
+				"totaldue",
+				"productid",
+				"orderqty",
+				"unitprice",
+				"unitpricediscount"
+			],
+			"parentsValid": true,
+			"calculatedType": "",
+			"codeGenVersion": 2
+		},
+		"node-1681539551467": {
+			"nodeId": "node-1681539551467",
+			"dataPreview": false,
+			"previewAmount": 0,
+			"inputs": [],
+			"name": "Customers",
+			"generatedNodeName": "Customers_node1681539551467",
+			"classification": "DataSource",
+			"type": "Catalog",
+			"isCatalog": true,
+			"database": "transactionsystem",
+			"table": "customers",
+			"calculatedType": "",
+			"runtimeParameters": [],
+			"codeGenVersion": 2
+		},
+		"node-1681539963483": {
+			"nodeId": "node-1681539963483",
+			"dataPreview": false,
+			"previewAmount": 0,
+			"inputs": [
+				"node-1681539711423",
+				"node-1681540702220"
+			],
+			"name": "Customer & Sales",
+			"generatedNodeName": "CustomerSales_node1681539963483",
+			"classification": "Transform",
+			"type": "Join",
+			"joinType": "equijoin",
+			"columns": [
+				{
+					"from": "node-1681539711423",
+					"keys": [
+						"customerid"
+					]
+				},
+				{
+					"from": "node-1681540702220",
+					"keys": [
+						"(right) customerid"
+					]
+				}
+			],
+			"columnConditions": [
+				"="
+			],
+			"parentsValid": true,
+			"calculatedType": "",
+			"codeGenVersion": 2
+		},
+		"node-1681539798144": {
+			"nodeId": "node-1681539798144",
+			"dataPreview": false,
+			"previewAmount": 0,
+			"inputs": [
+				"node-1681539629717"
+			],
+			"name": "Employees Select",
+			"generatedNodeName": "EmployeesSelect_node1681539798144",
+			"classification": "Transform",
+			"type": "DropFields",
+			"paths": [
+				"managerid",
+				"firstname",
+				"lastname",
+				"jobtitle",
+				"organizationlevel",
+				"maritalstatus",
+				"gender",
+				"territory",
+				"country",
+				"group"
+			],
+			"parentsValid": true,
+			"calculatedType": "",
+			"codeGenVersion": 2
+		},
+		"node-1681540077741": {
+			"nodeId": "node-1681540077741",
+			"dataPreview": false,
+			"previewAmount": 0,
+			"inputs": [
+				"node-1681539760996",
+				"node-1681540677562"
+			],
+			"name": "Employee & Sales",
+			"generatedNodeName": "EmployeeSales_node1681540077741",
+			"classification": "Transform",
+			"type": "Join",
+			"joinType": "equijoin",
+			"columns": [
+				{
+					"from": "node-1681539760996",
+					"keys": [
+						"employeeid"
+					]
+				},
+				{
+					"from": "node-1681540677562",
+					"keys": [
+						"(right) employeeid"
+					]
+				}
+			],
+			"columnConditions": [
+				"="
+			],
+			"parentsValid": true,
+			"calculatedType": "",
+			"codeGenVersion": 2
+		},
+		"node-1681540702220": {
+			"nodeId": "node-1681540702220",
+			"dataPreview": false,
+			"previewAmount": 0,
+			"inputs": [
+				"node-1681539760996"
+			],
+			"name": "Renamed keys for Customer & Sales",
+			"generatedNodeName": "RenamedkeysforCustomerSales_node1681540702220",
+			"classification": "Transform",
+			"type": "ApplyMapping",
+			"mapping": [
+				{
+					"toKey": "(right) employeeid",
+					"fromPath": [
+						"employeeid"
+					],
+					"toType": "long",
+					"fromType": "long",
+					"dropped": false,
+					"children": null
+				},
+				{
+					"toKey": "(right) customerid",
+					"fromPath": [
+						"customerid"
+					],
+					"toType": "long",
+					"fromType": "long",
+					"dropped": false,
+					"children": null
+				},
+				{
+					"toKey": "(right) linetotal",
+					"fromPath": [
+						"linetotal"
+					],
+					"toType": "double",
+					"fromType": "double",
+					"dropped": false,
+					"children": null
+				}
+			],
+			"parentsValid": true,
+			"calculatedType": "",
+			"codeGenVersion": 2
+		},
+		"node-1681539580030": {
+			"nodeId": "node-1681539580030",
+			"dataPreview": false,
+			"previewAmount": 0,
+			"inputs": [],
+			"name": "Orders",
+			"generatedNodeName": "Orders_node1681539580030",
+			"classification": "DataSource",
+			"type": "Catalog",
+			"isCatalog": true,
+			"database": "transactionsystem",
+			"table": "orders",
+			"calculatedType": "",
+			"runtimeParameters": [],
+			"codeGenVersion": 2
+		},
+		"node-1681554867335": {
+			"nodeId": "node-1681554867335",
+			"dataPreview": false,
+			"previewAmount": 0,
+			"inputs": [
+				"node-1681554205060"
+			],
+			"name": "Employeewise Aggregate",
+			"generatedNodeName": "EmployeewiseAggregate_node1681554867335",
+			"classification": "Transform",
+			"type": "Aggregate",
+			"parentsValid": true,
+			"calculatedType": "",
+			"groups": [
+				"employeename"
+			],
+			"aggs": [
+				{
+					"column": "totalsale_emp",
+					"aggFunc": "sum"
+				}
+			],
+			"codeGenVersion": 2
+		},
+		"node-1681554768134": {
+			"nodeId": "node-1681554768134",
+			"dataPreview": false,
+			"previewAmount": 0,
+			"inputs": [
+				"node-1681553463323"
+			],
+			"name": "Customerwise Aggregation",
+			"generatedNodeName": "CustomerwiseAggregation_node1681554768134",
+			"classification": "Transform",
+			"type": "Aggregate",
+			"parentsValid": true,
+			"calculatedType": "",
+			"groups": [
+				"customername"
+			],
+			"aggs": [
+				{
+					"column": "revenuegenerated",
+					"aggFunc": "sum"
+				}
+			],
+			"codeGenVersion": 2
+		},
+		"node-1681553463323": {
+			"nodeId": "node-1681553463323",
+			"dataPreview": false,
+			"previewAmount": 0,
+			"inputs": [
+				"node-1681553372396"
+			],
+			"name": "Rename Revenue Report Fields",
+			"generatedNodeName": "RenameRevenueReportFields_node1681553463323",
+			"classification": "Transform",
+			"type": "ApplyMapping",
+			"mapping": [
+				{
+					"toKey": "customername",
+					"fromPath": [
+						"fullname"
+					],
+					"toType": "string",
+					"fromType": "string",
+					"dropped": false,
+					"children": null
+				},
+				{
+					"toKey": "revenuegenerated",
+					"fromPath": [
+						"(right) linetotal"
+					],
+					"toType": "double",
+					"fromType": "double",
+					"dropped": false,
+					"children": null
+				}
+			],
+			"parentsValid": true,
+			"calculatedType": "",
+			"codeGenVersion": 2
+		},
+		"node-1681540677562": {
+			"nodeId": "node-1681540677562",
+			"dataPreview": false,
+			"previewAmount": 0,
+			"inputs": [
+				"node-1681539798144"
+			],
+			"name": "Renamed keys for Employee & Sales",
+			"generatedNodeName": "RenamedkeysforEmployeeSales_node1681540677562",
+			"classification": "Transform",
+			"type": "ApplyMapping",
+			"mapping": [
+				{
+					"toKey": "(right) employeeid",
+					"fromPath": [
+						"employeeid"
+					],
+					"toType": "long",
+					"fromType": "long",
+					"dropped": false,
+					"children": null
+				},
+				{
+					"toKey": "(right) fullname",
+					"fromPath": [
+						"fullname"
+					],
+					"toType": "string",
+					"fromType": "string",
+					"dropped": false,
+					"children": null
+				}
+			],
+			"parentsValid": true,
+			"calculatedType": "",
+			"codeGenVersion": 2
+		},
+		"node-1681540528094": {
+			"nodeId": "node-1681540528094",
+			"dataPreview": false,
+			"previewAmount": 0,
+			"inputs": [
+				"node-1681554867335"
+			],
+			"name": "Sale Report By Employees",
+			"generatedNodeName": "SaleReportByEmployees_node1681540528094",
+			"classification": "DataSink",
+			"type": "S3",
+			"streamingBatchInterval": 100,
+			"format": "csv",
+			"compression": "none",
+			"path": "s3://aws-glue-demo-ck/salesreport_emp/",
+			"partitionKeys": [],
+			"schemaChangePolicy": {
+				"enableUpdateCatalog": false,
+				"updateBehavior": null,
+				"database": null,
+				"table": null
+			},
+			"updateCatalogOptions": "none",
+			"calculatedType": ""
+		},
+		"node-1681539629717": {
+			"nodeId": "node-1681539629717",
+			"dataPreview": false,
+			"previewAmount": 0,
+			"inputs": [],
+			"name": "Employeees",
+			"generatedNodeName": "Employeees_node1681539629717",
+			"classification": "DataSource",
+			"type": "Catalog",
+			"isCatalog": true,
+			"database": "transactionsystem",
+			"table": "employees",
+			"calculatedType": "",
+			"runtimeParameters": [],
+			"codeGenVersion": 2
+		},
+		"node-1681539711423": {
+			"nodeId": "node-1681539711423",
+			"dataPreview": false,
+			"previewAmount": 0,
+			"inputs": [
+				"node-1681539551467"
+			],
+			"name": "Customer Select",
+			"generatedNodeName": "CustomerSelect_node1681539711423",
+			"classification": "Transform",
+			"type": "DropFields",
+			"paths": [
+				"firstname",
+				"lastname"
+			],
+			"parentsValid": true,
+			"calculatedType": "",
+			"codeGenVersion": 2
+		}
+	},
+	"hasBeenSaved": false
+}

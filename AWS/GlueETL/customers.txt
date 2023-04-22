@@ -1,0 +1,18 @@
+[
+  {
+    "Name": "customerid",
+    "Type": "bigint"
+  },
+  {
+    "Name": "firstname",
+    "Type": "string"
+  },
+  {
+    "Name": "lastname",
+    "Type": "string"
+  },
+  {
+    "Name": "fullname",
+    "Type": "string"
+  }
+]

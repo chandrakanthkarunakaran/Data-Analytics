@@ -1,0 +1,340 @@
+﻿{
+  "paragraphs": [
+    {
+      "text": "%flink.ssql\r\n\r\nCREATE TABLE daily_transaction (\r\n    grp VARCHAR,\r\n    sgrp VARCHAR,\r\n    storecode VARCHAR,\r\n    mth VARCHAR,\r\n    qty DOUBLE,\r\n    price DOUBLE,\r\n    valtotal DOUBLE,\r\n    tid VARCHAR,\r\n    event_time TIMESTAMP(3),\r\n    WATERMARK FOR event_time AS event_time - INTERVAL '5' SECOND\r\n)\r\nPARTITIONED BY (tid)\r\nWITH (\r\n    'connector' = 'kinesis',\r\n    'stream' = 'SaleTransactions',\r\n    'aws.region' = 'us-east-2',\r\n    'scan.stream.initpos' = 'LATEST',\r\n    'format' = 'json',\r\n    'json.timestamp-format.standard' = 'ISO-8601'\r\n)",
+      "user": "anonymous",
+      "dateUpdated": "2023-04-08T07:09:49+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/sql",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "Table has been created.\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1680934038192_64279064",
+      "id": "paragraph_1680934038192_64279064",
+      "dateCreated": "2023-04-08T06:07:18+0000",
+      "dateStarted": "2023-04-08T07:09:49+0000",
+      "dateFinished": "2023-04-08T07:09:51+0000",
+      "status": "FINISHED",
+      "focus": true,
+      "$$hashKey": "object:27822"
+    },
+    {
+      "text": "\n%flink.ssql(type=update)\n\nSELECT * FROM daily_transaction;",
+      "user": "anonymous",
+      "dateUpdated": "2023-04-08T07:12:09+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/sql",
+        "fontSize": 9,
+        "results": {
+          "0": {
+            "graph": {
+              "mode": "table",
+              "height": 300,
+              "optionOpen": false
+            },
+            "helium": {}
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "FLINK JOB",
+          "tooltip": "View in Flink web UI",
+          "group": "flink",
+          "values": [
+            {
+              "jobUrl": "/flinkdashboard/#/job/16665d2ee68a165db1ccc3ff39315c03",
+              "$$hashKey": "object:27900"
+            }
+          ],
+          "interpreterSettingId": "flink"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1680934556900_2106636806",
+      "id": "paragraph_1680934556900_2106636806",
+      "dateCreated": "2023-04-08T06:15:56+0000",
+      "dateStarted": "2023-04-08T07:10:00+0000",
+      "dateFinished": "2023-04-08T06:16:38+0000",
+      "status": "ABORT",
+      "$$hashKey": "object:27823"
+    },
+    {
+      "text": "%flink.ssql(type=update)\n\nselect grp,sum(qty) as totalqty from daily_transaction group by grp\n",
+      "user": "anonymous",
+      "dateUpdated": "2023-04-08T07:32:29+0000",
+      "progress": 0,
+      "config": {
+        "colWidth": 12,
+        "fontSize": 9,
+        "enabled": true,
+        "results": {
+          "0": {
+            "graph": {
+              "mode": "multiBarChart",
+              "height": 300,
+              "optionOpen": false,
+              "setting": {
+                "multiBarChart": {
+                  "rotate": {
+                    "degree": "-45"
+                  },
+                  "xLabelStatus": "default"
+                }
+              },
+              "commonSetting": {},
+              "keys": [
+                {
+                  "name": "grp",
+                  "index": 0,
+                  "aggr": "sum"
+                }
+              ],
+              "groups": [],
+              "values": [
+                {
+                  "name": "totalqty",
+                  "index": 1,
+                  "aggr": "sum"
+                }
+              ]
+            },
+            "helium": {}
+          }
+        },
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/sql"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "msg": [
+          {
+            "data": "grp\ttotalqty\nAFTER SHAVE LOTIONS\t1.0\nAGARBATTI & DHOOPBATTI\t11.0\nALL AIR FRESHNERS(01/03)\t17.0\nALL IODISED SALT\t61.0\nANTACIDS\t15.0\nANTISEPTIC LIQUIDS (4/97)\t3.0\nBATTERIES\t56.0\nBEVERAGES\t15.0\nBISCUITS - CORE & NON CORE\t1698.0\nBLUES\t3.0\nBREAKFAST CEREALS\t46.0\nBUTTER MARGR  (4/94)\t74.0\nCHEESE        (4/94)\t46.0\nCHOCOLATE\t265.0\nCLEANERS - FLOOR\t30.0\nCLEANERS - GLASS\t1.0\nCLEANERS - TOILET\t3009.0\nCLEANERS - UTENSIL\t92.0\nCOCONUT OIL PKTYP (08/02)\t21.0\nCOFFEE\t46.0\nCONFECTIONERY - COUGH LOZENGE\t3.0\nCONFECTIONERY - ECLAIRS\t8.0\nCONFECTIONERY - LOLLIPOP/FMR\t2.0\nCONFECTIONERY - TOFFEE/HBC\t44.0\nCONFECTIONERY - TOTAL GUM\t3.0\nDETERGENT CAKES/BARS\t68.0\nDIAPERS       (8/93)\t25.0\nFRAGRANCE-PERFUM,DEO & COLOGNE\t3.0\nGLUCOSE POWDER & TABLET\t9.0\nHAIR CONDITIONERS\t6.0\nHAIR DYES     (1/76)\t22.0\nHAIR OILS PKTP(8/02)\t6017.0\nHOME INSECTICIDES CTG  (8/93)\t1011.0\nJAMS/JELLY/MARMALADES-CTG\t14.0\nKETCHUPS/SAUCES\t58.0\nLIQUID TOILET SOAPS  (8/93)\t14.0\nMILK POWDERS\t34.0\nMOSQUITO REPELLANTS CTG (8/93)\t14.0\nNON-REFINED OILS   (9/93)\t12.0\nOTHER SCOURERS\t20.0\nPACKAGED ATTA (1/95)\t123.0\nPACKAGED PURE GHEE\t3067.0\nPACKAGED RICE (1/95)\t18.0\nPACKAGED TEA\t192.0\nPALMOLEIN REFINED OIL (01/03)\t5.0\nPRE-POST WASH PRODUCTS\t49.0\nPRICKLY HEAT POWDER\t4.0\nREADY TO EAT\t45.0\nREFINED EDIBLE OILS-ALL PACKS\t12184.0\nRUBEFACIENT\t4.0\nSAFETY RAZOR BLADES\t2.0\nSALTY SNACKS (2/97)\t322.0\nSANITARY NAPKINS\t5.0\nSCOURING PADS/SCRUBS\t18.0\nSHAMPOO - BY SEGMENTS\t89.0\nSHAVING PREPARATIONS\t1.0\nSKIN CREAMS\t19.0\nSOAP CAKES/BARS\t10.0\nSPICES (03/04)\t348.0\nSQSH CRDLS & SFT DRNK-CONVERTD\t63.0\nSUGAR SUBSTITUTE (11/05)\t5.0\nTALCUM POWDERS\t6.0\nTOILET SOAPS (04/00)\t189.0\nTOOTH BRUSH   (7/93)\t13.0\nTOOTH PASTES\t52.0\nTOOTH POWDERS\t4.0\nTWIN BLADES\t9.0\nVANASPATI CONS PACK (8/94)\t13.0\nVERMICELLI & NOODLE\t273.0\nWASHING POWDERS/LIQUIDS\t312.0\n",
+            "type": "TABLE"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "FLINK JOB",
+          "tooltip": "View in Flink web UI",
+          "group": "flink",
+          "values": [
+            {
+              "jobUrl": "/flinkdashboard/#/job/78b0dc97af5c7745f7632eddd58de15f",
+              "$$hashKey": "object:29551"
+            }
+          ],
+          "interpreterSettingId": "flink"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1680934589170_1346235187",
+      "id": "paragraph_1680934589170_1346235187",
+      "dateCreated": "2023-04-08T06:16:29+0000",
+      "dateStarted": "2023-04-08T07:32:29+0000",
+      "dateFinished": "2023-04-08T07:32:24+0000",
+      "status": "RUNNING",
+      "$$hashKey": "object:27824"
+    },
+    {
+      "text": "\n%flink.ssql\n\nCREATE TABLE daily_report (\n    grp VARCHAR(6),\n    totalqty DOUBLE\n)\nWITH (\n'connector' = 'kinesis',\n'stream' = 'Reports1',\n'aws.region' = 'us-east-2',\n'scan.stream.initpos' = 'LATEST',\n'format' = 'json',\n'json.timestamp-format.standard' = 'ISO-8601');\n",
+      "user": "anonymous",
+      "dateUpdated": "2023-04-08T07:29:16+0000",
+      "progress": 0,
+      "config": {
+        "colWidth": 12,
+        "fontSize": 9,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1680937897428_1905733228",
+      "id": "paragraph_1680937897428_1905733228",
+      "dateCreated": "2023-04-08T07:11:37+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:27825",
+      "dateFinished": "2023-04-08T07:29:17+0000",
+      "dateStarted": "2023-04-08T07:29:16+0000",
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "Table has been created.\n"
+          }
+        ]
+      }
+    },
+    {
+      "text": "%flink.ssql(type=update)\n\nINSERT INTO daily_report\nSELECT grp,qty as totalqty from daily_transaction\n\n",
+      "user": "anonymous",
+      "dateUpdated": "2023-04-08T07:33:58+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/sql",
+        "fontSize": 9,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "FLINK JOB",
+          "tooltip": "View in Flink web UI",
+          "group": "flink",
+          "values": [
+            {
+              "jobUrl": "/flinkdashboard/#/job/46cd01e522bf5f44fb96d69bfa5b7ea2",
+              "$$hashKey": "object:30001"
+            }
+          ],
+          "interpreterSettingId": "flink"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1680938956797_581374641",
+      "id": "paragraph_1680938956797_581374641",
+      "dateCreated": "2023-04-08T07:29:16+0000",
+      "status": "ERROR",
+      "focus": true,
+      "$$hashKey": "object:28587",
+      "dateFinished": "2023-04-08T07:37:49+0000",
+      "dateStarted": "2023-04-08T07:33:58+0000",
+      "results": {
+        "code": "ERROR",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "Fail to run sql command: INSERT INTO daily_report\nSELECT grp,qty as totalqty from daily_transaction\n"
+          },
+          {
+            "type": "ANGULAR",
+            "data": "<div class='container ng-scope' style='padding-left:0px;padding-right:0px;'>\n    <div class='panel panel-danger'>\n        <div class='panel-heading' ng-click='isOpen=!isOpen' ng-init='isOpen=false' style=\"cursor:pointer\">\n            <div class='plainTextContainer' style='font-weight:bolder'><i class=\"fa fa-caret-right fa-fw\" style=\"padding-right:7px;transition:all 0.3s;{{isOpen?'transform:rotate(90deg);transform-origin:25% 45%':''}}\"></i>RuntimeException: Retries exceeded for getRecords operation - all 3 retry attempts failed.</div>\n        </div>\n        <div class='panel-collapse' uib-collapse='!isOpen'>\n            <div class='text' style='max-height:300px;overflow:auto;padding:10px'>java.io.IOException: org.apache.flink.client.program.ProgramInvocationException: Job failed (JobID: 46cd01e522bf5f44fb96d69bfa5b7ea2)\n\tat org.apache.zeppelin.flink.FlinkSqlInterrpeter.callInsertInto(FlinkSqlInterrpeter.java:538)\n\tat org.apache.zeppelin.flink.FlinkStreamSqlInterpreter.callInsertInto(FlinkStreamSqlInterpreter.java:97)\n\tat org.apache.zeppelin.flink.FlinkSqlInterrpeter.callCommand(FlinkSqlInterrpeter.java:273)\n\tat org.apache.zeppelin.flink.FlinkSqlInterrpeter.runSqlList(FlinkSqlInterrpeter.java:160)\n\tat org.apache.zeppelin.flink.FlinkSqlInterrpeter.internalInterpret(FlinkSqlInterrpeter.java:112)\n\tat org.apache.zeppelin.interpreter.AbstractInterpreter.interpret(AbstractInterpreter.java:47)\n\tat org.apache.zeppelin.interpreter.LazyOpenInterpreter.interpret(LazyOpenInterpreter.java:110)\n\tat org.apache.zeppelin.interpreter.remote.RemoteInterpreterServer$InterpretJob.jobRun(RemoteInterpreterServer.java:852)\n\tat org.apache.zeppelin.interpreter.remote.RemoteInterpreterServer$InterpretJob.jobRun(RemoteInterpreterServer.java:744)\n\tat org.apache.zeppelin.scheduler.Job.run(Job.java:172)\n\tat org.apache.zeppelin.scheduler.AbstractScheduler.runJob(AbstractScheduler.java:132)\n\tat org.apache.zeppelin.scheduler.ParallelScheduler.lambda$runJobInScheduler$0(ParallelScheduler.java:46)\n\tat java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)\n\tat java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)\n\tat java.base/java.lang.Thread.run(Thread.java:829)\nCaused by: org.apache.flink.client.program.ProgramInvocationException: Job failed (JobID: 46cd01e522bf5f44fb96d69bfa5b7ea2)\n\tat org.apache.flink.client.deployment.ClusterClientJobClientAdapter.lambda$getJobExecutionResult$6(ClusterClientJobClientAdapter.java:125)\n\tat java.base/java.util.concurrent.CompletableFuture$UniApply.tryFire(CompletableFuture.java:642)\n\tat java.base/java.util.concurrent.CompletableFuture.postComplete(CompletableFuture.java:506)\n\tat java.base/java.util.concurrent.CompletableFuture.complete(CompletableFuture.java:2073)\n\tat org.apache.flink.runtime.concurrent.FutureUtils.lambda$retryOperationWithDelay$9(FutureUtils.java:394)\n\tat java.base/java.util.concurrent.CompletableFuture.uniWhenComplete(CompletableFuture.java:859)\n\tat java.base/java.util.concurrent.CompletableFuture$UniWhenComplete.tryFire(CompletableFuture.java:837)\n\tat java.base/java.util.concurrent.CompletableFuture.postComplete(CompletableFuture.java:506)\n\tat java.base/java.util.concurrent.CompletableFuture.complete(CompletableFuture.java:2073)\n\tat org.apache.flink.client.program.rest.RestClusterClient.lambda$pollResourceAsync$24(RestClusterClient.java:670)\n\tat java.base/java.util.concurrent.CompletableFuture.uniWhenComplete(CompletableFuture.java:859)\n\tat java.base/java.util.concurrent.CompletableFuture$UniWhenComplete.tryFire(CompletableFuture.java:837)\n\tat java.base/java.util.concurrent.CompletableFuture.postComplete(CompletableFuture.java:506)\n\tat java.base/java.util.concurrent.CompletableFuture.complete(CompletableFuture.java:2073)\n\tat org.apache.flink.runtime.concurrent.FutureUtils.lambda$retryOperationWithDelay$9(FutureUtils.java:394)\n\tat java.base/java.util.concurrent.CompletableFuture.uniWhenComplete(CompletableFuture.java:859)\n\tat java.base/java.util.concurrent.CompletableFuture$UniWhenComplete.tryFire(CompletableFuture.java:837)\n\tat java.base/java.util.concurrent.CompletableFuture.postComplete(CompletableFuture.java:506)\n\tat java.base/java.util.concurrent.CompletableFuture.postFire(CompletableFuture.java:610)\n\tat java.base/java.util.concurrent.CompletableFuture$UniCompose.tryFire(CompletableFuture.java:1085)\n\tat java.base/java.util.concurrent.CompletableFuture$Completion.run(CompletableFuture.java:478)\n\t... 3 more\nCaused by: org.apache.flink.runtime.client.JobExecutionException: Job execution failed.\n\tat org.apache.flink.runtime.jobmaster.JobResult.toJobExecutionResult(JobResult.java:144)\n\tat org.apache.flink.client.deployment.ClusterClientJobClientAdapter.lambda$getJobExecutionResult$6(ClusterClientJobClientAdapter.java:123)\n\t... 23 more\nCaused by: org.apache.flink.runtime.JobException: Recovery is suppressed by NoRestartBackoffTimeStrategy\n\tat org.apache.flink.runtime.executiongraph.failover.flip1.ExecutionFailureHandler.handleFailure(ExecutionFailureHandler.java:138)\n\tat org.apache.flink.runtime.executiongraph.failover.flip1.ExecutionFailureHandler.getFailureHandlingResult(ExecutionFailureHandler.java:82)\n\tat org.apache.flink.runtime.scheduler.DefaultScheduler.handleTaskFailure(DefaultScheduler.java:222)\n\tat org.apache.flink.runtime.scheduler.DefaultScheduler.maybeHandleTaskFailure(DefaultScheduler.java:212)\n\tat org.apache.flink.runtime.scheduler.DefaultScheduler.updateTaskExecutionStateInternal(DefaultScheduler.java:203)\n\tat org.apache.flink.runtime.scheduler.SchedulerBase.updateTaskExecutionState(SchedulerBase.java:719)\n\tat org.apache.flink.runtime.scheduler.SchedulerNG.updateTaskExecutionState(SchedulerNG.java:79)\n\tat org.apache.flink.runtime.jobmaster.JobMaster.updateTaskExecutionState(JobMaster.java:446)\n\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)\n\tat java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)\n\tat java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)\n\tat java.base/java.lang.reflect.Method.invoke(Method.java:566)\n\tat org.apache.flink.runtime.rpc.akka.AkkaRpcActor.handleRpcInvocation(AkkaRpcActor.java:305)\n\tat org.apache.flink.runtime.rpc.akka.AkkaRpcActor.handleRpcMessage(AkkaRpcActor.java:212)\n\tat org.apache.flink.runtime.rpc.akka.FencedAkkaRpcActor.handleRpcMessage(FencedAkkaRpcActor.java:77)\n\tat org.apache.flink.runtime.rpc.akka.AkkaRpcActor.handleMessage(AkkaRpcActor.java:158)\n\tat akka.japi.pf.UnitCaseStatement.apply(CaseStatements.scala:26)\n\tat akka.japi.pf.UnitCaseStatement.apply(CaseStatements.scala:21)\n\tat scala.PartialFunction.applyOrElse(PartialFunction.scala:123)\n\tat scala.PartialFunction.applyOrElse$(PartialFunction.scala:122)\n\tat akka.japi.pf.UnitCaseStatement.applyOrElse(CaseStatements.scala:21)\n\tat scala.PartialFunction$OrElse.applyOrElse(PartialFunction.scala:171)\n\tat scala.PartialFunction$OrElse.applyOrElse(PartialFunction.scala:172)\n\tat scala.PartialFunction$OrElse.applyOrElse(PartialFunction.scala:172)\n\tat akka.actor.Actor.aroundReceive(Actor.scala:517)\n\tat akka.actor.Actor.aroundReceive$(Actor.scala:515)\n\tat akka.actor.AbstractActor.aroundReceive(AbstractActor.scala:225)\n\tat akka.actor.ActorCell.receiveMessage(ActorCell.scala:592)\n\tat akka.actor.ActorCell.invoke(ActorCell.scala:561)\n\tat akka.dispatch.Mailbox.processMailbox(Mailbox.scala:258)\n\tat akka.dispatch.Mailbox.run(Mailbox.scala:225)\n\tat akka.dispatch.Mailbox.exec(Mailbox.scala:235)\n\tat akka.dispatch.forkjoin.ForkJoinTask.doExec(ForkJoinTask.java:260)\n\tat akka.dispatch.forkjoin.ForkJoinPool$WorkQueue.runTask(ForkJoinPool.java:1339)\n\tat akka.dispatch.forkjoin.ForkJoinPool.runWorker(ForkJoinPool.java:1979)\n\tat akka.dispatch.forkjoin.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:107)\nCaused by: java.lang.RuntimeException: Retries exceeded for getRecords operation - all 3 retry attempts failed.\n\tat org.apache.flink.streaming.connectors.kinesis.proxy.KinesisProxy.getRecords(KinesisProxy.java:317)\n\tat org.apache.flink.streaming.connectors.kinesis.internals.publisher.polling.PollingRecordPublisher.getRecords(PollingRecordPublisher.java:168)\n\tat org.apache.flink.streaming.connectors.kinesis.internals.publisher.polling.PollingRecordPublisher.run(PollingRecordPublisher.java:113)\n\tat org.apache.flink.streaming.connectors.kinesis.internals.publisher.polling.PollingRecordPublisher.run(PollingRecordPublisher.java:102)\n\tat org.apache.flink.streaming.connectors.kinesis.internals.ShardConsumer.run(ShardConsumer.java:114)\n\tat java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:515)\n\tat java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)\n\tat java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)\n\tat java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)\n\tat java.base/java.lang.Thread.run(Thread.java:829)\n</div>\n        </div>\n    </div>\n</div>\n"
+          }
+        ]
+      }
+    },
+    {
+      "text": "%flink.ssql\n",
+      "user": "anonymous",
+      "dateUpdated": "2023-04-08T07:30:53+0000",
+      "progress": 0,
+      "config": {
+        "colWidth": 12,
+        "fontSize": 9,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1680939053976_390268554",
+      "id": "paragraph_1680939053976_390268554",
+      "dateCreated": "2023-04-08T07:30:53+0000",
+      "status": "READY",
+      "focus": true,
+      "$$hashKey": "object:28949"
+    }
+  ],
+  "name": "TransactionAppNotebook",
+  "id": "2HWGYF2WV",
+  "defaultInterpreterGroup": "flink",
+  "version": "0.9.0",
+  "noteParams": {},
+  "noteForms": {},
+  "angularObjects": {},
+  "config": {
+    "isZeppelinNotebookCronEnable": false,
+    "looknfeel": "default",
+    "personalizedMode": "false"
+  },
+  "info": {},
+  "path": "/TransactionAppNotebook"
+}

@@ -1,0 +1,50 @@
+[
+  {
+    "Name": "employeeid",
+    "Type": "bigint"
+  },
+  {
+    "Name": "managerid",
+    "Type": "bigint"
+  },
+  {
+    "Name": "firstname",
+    "Type": "string"
+  },
+  {
+    "Name": "lastname",
+    "Type": "string"
+  },
+  {
+    "Name": "fullname",
+    "Type": "string"
+  },
+  {
+    "Name": "jobtitle",
+    "Type": "string"
+  },
+  {
+    "Name": "organizationlevel",
+    "Type": "bigint"
+  },
+  {
+    "Name": "maritalstatus",
+    "Type": "string"
+  },
+  {
+    "Name": "gender",
+    "Type": "string"
+  },
+  {
+    "Name": "territory",
+    "Type": "string"
+  },
+  {
+    "Name": "country",
+    "Type": "string"
+  },
+  {
+    "Name": "group",
+    "Type": "string"
+  }
+]
